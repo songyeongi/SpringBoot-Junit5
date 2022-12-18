@@ -1,11 +1,16 @@
 package com.cos.book.service;
 
+import com.cos.book.domain.Book;
 import com.cos.book.domain.BookRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * 단위테스트 (Service와 관련된 애들만 메모리에 띄우면 됨)
@@ -21,6 +26,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  *
  * BookRepository를 실제로 빈에 띄우면 결국 데이터베이스랑 같이 테스트하는 거랑 다름없다.
  * => 가짜 객체로 만들 수 있다. 그 환경을 @ExtendWith(MockitoExtension.class)가 지원해준다. //스프링이랑 상관없다
+ *
+ * 서비스는 안에 로직만 테스트한다. service, repository 다 가짜 객체이다
  */
 
 @ExtendWith(MockitoExtension.class)
@@ -35,4 +42,21 @@ public class BookServiceUnitTest {
 
     @Mock
     private BookRepository bookRepository;
+
+    @Test
+    public void 저장하기_테스트() {
+        // BODMockito 방식
+        // given book 객체 만들기 / 여기는 스프링 환경이 아무것도 필요없다.
+        Book book = new Book();
+        book.setTitle("책제목1");
+        book.setAuthor("책저자1");
+        // stub - 동작 지정
+        when(bookRepository.save(book)).thenReturn(book);
+
+        // test execute
+        Book booEntity = bookService.저장하기(book);
+
+        // then
+        assertEquals(booEntity, book);
+    }
 }
