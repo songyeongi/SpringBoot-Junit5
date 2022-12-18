@@ -10,21 +10,28 @@ spring:
   profiles:
     active: dev
 ---
-spring:
-  profiles: dev
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/cosdb?serverTimezone=Asia/Seoul
-    username: cosuser
-    password: cos1234
+#spring:
+#  profiles: dev
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/cosdb?serverTimezone=Asia/Seoul
+#    username: cosuser
+#    password: cos1234
+#---
+#spring:
+#  profiles: test
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/testdb?serverTimezone=Asia/Seoul
+#    username: testuser
+#    password: test1234
 ---
 spring:
-  profiles: test
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/testdb?serverTimezone=Asia/Seoul
-    username: testuser
-    password: test1234
+    url: jdbc:h2:mem:cosdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
 ---
 spring:
   jpa:
@@ -33,3 +40,4 @@ spring:
       ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
